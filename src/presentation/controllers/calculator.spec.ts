@@ -19,6 +19,14 @@ const makeCalculator = (): CalculateMathExpression => {
 	return new CalculateMathExpressionStub();
 };
 
+const makeFakeRequest = (): HttpRequest => {
+	return {
+		body: {
+			mathExpression: "5 + 5",
+		},
+	};
+};
+
 interface SutTypes {
 	sut: CalculatorController;
 	calculatorStub: CalculateMathExpression;
@@ -46,12 +54,7 @@ describe("Calculator Controller", () => {
 	test("Should call CalculateMathExpression with the correct parameter", async () => {
 		const { sut, calculatorStub } = makeSut();
 		const calculatorSpy = jest.spyOn(calculatorStub, "execute");
-		const httpRequest = {
-			body: {
-				mathExpression: "5 + 5",
-			},
-		};
-		await sut.handle(httpRequest);
+		await sut.handle(makeFakeRequest());
 		expect(calculatorSpy).toHaveBeenCalledWith("5 + 5");
 	});
 
@@ -60,12 +63,7 @@ describe("Calculator Controller", () => {
 		jest.spyOn(calculatorStub, "execute").mockImplementationOnce(() => {
 			throw new Error();
 		});
-		const httpRequest = {
-			body: {
-				mathExpression: "5 + 5",
-			},
-		};
-		const httpResponse = await sut.handle(httpRequest);
+		const httpResponse = await sut.handle(makeFakeRequest());
 		expect(httpResponse).toEqual(serverError(new ServerError("")));
 	});
 });

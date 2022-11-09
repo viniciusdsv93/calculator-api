@@ -2,8 +2,8 @@ import { MathResult } from "../../domain/models/mathResult";
 import { CalculateMathExpression } from "../../domain/useCases/calculateMathExpression";
 import { MissingParamError } from "../errors/missingParamError";
 import { ServerError } from "../errors/serverError";
-import { badRequest, serverError } from "../helpers/http";
-import { HttpRequest } from "../protocols/http";
+import { badRequest, ok, serverError } from "../helpers/http";
+import { HttpRequest, HttpResponse } from "../protocols/http";
 import { CalculatorController } from "./calculator";
 
 const makeCalculator = (): CalculateMathExpression => {
@@ -24,6 +24,14 @@ const makeFakeRequest = (): HttpRequest => {
 		body: {
 			mathExpression: "5 + 5",
 		},
+	};
+};
+
+const makeFakeResult = () => {
+	return {
+		mathExpression: "5 + 5",
+		result: 10,
+		date: new Date(),
 	};
 };
 
@@ -66,4 +74,10 @@ describe("Calculator Controller", () => {
 		const httpResponse = await sut.handle(makeFakeRequest());
 		expect(httpResponse).toEqual(serverError(new ServerError("")));
 	});
+
+	// test("Should return 200 on success", async () => {
+	// 	const { sut } = makeSut();
+	// 	const httpResponse = await sut.handle(makeFakeRequest());
+	// 	expect(httpResponse).toEqual(ok(makeFakeResult()));
+	// });
 });

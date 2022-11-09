@@ -1,7 +1,8 @@
 import { MathResult } from "../../domain/models/mathResult";
 import { CalculateMathExpression } from "../../domain/useCases/calculateMathExpression";
 import { MissingParamError } from "../errors/missingParamError";
-import { badRequest } from "../helpers/http";
+import { ServerError } from "../errors/serverError";
+import { badRequest, serverError } from "../helpers/http";
 import { HttpRequest } from "../protocols/http";
 import { CalculatorController } from "./calculator";
 
@@ -54,18 +55,17 @@ describe("Calculator Controller", () => {
 		expect(calculatorSpy).toHaveBeenCalledWith("5 + 5");
 	});
 
-	// test('Should return an internal server error if throws an error inside CalculatorController', async () => {
-	//   class CalculatorControllerStub {
-	//     async handle(httpRequest: HttpRequest) {
-	//       throw new Error()
-	//     }
-	//   }
-
-	//   const sut = new CalculatorControllerStub()
-	//   const httpRequest = {
-	//     body: {}
-	//   }
-	//   const httpResponse = await sut.handle(httpRequest)
-	//   expect(httpResponse).toEqual(badRequest(new MissingParamError('mathExpression')))
-	// });
+	test("Should return 500 if CalculateMathExpression throws", async () => {
+		const { sut, calculatorStub } = makeSut();
+		jest.spyOn(calculatorStub, "execute").mockImplementationOnce(() => {
+			throw new Error();
+		});
+		const httpRequest = {
+			body: {
+				mathExpression: "5 + 5",
+			},
+		};
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse).toEqual(serverError(new ServerError("")));
+	});
 });

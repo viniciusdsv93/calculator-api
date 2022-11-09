@@ -1,3 +1,5 @@
+import { MissingParamError } from "../errors/missingParamError";
+import { badRequest } from "../helpers/http";
 import { CalculatorController } from "./calculator";
 
 describe('Calculator Controller', () => {
@@ -8,7 +10,6 @@ describe('Calculator Controller', () => {
       body: {}
     }
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new Error())
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('mathExpression')))
   });
 })

@@ -1,6 +1,6 @@
 import { CalculateMathExpression } from "../../domain/useCases/calculateMathExpression";
 import { MissingParamError } from "../errors/missingParamError";
-import { badRequest } from "../helpers/http";
+import { badRequest, ok, serverError } from "../helpers/http";
 import { Controller } from "../protocols/controller";
 import { HttpRequest, HttpResponse } from "../protocols/http";
 
@@ -12,20 +12,21 @@ export class CalculatorController implements Controller {
 	}
 
 	async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-		const requiredFields = ["mathExpression"];
-		for (const field of requiredFields) {
-			if (!httpRequest.body[field]) {
-				return badRequest(new MissingParamError(field));
+		try {
+			const requiredFields = ["mathExpression"];
+			for (const field of requiredFields) {
+				if (!httpRequest.body[field]) {
+					return badRequest(new MissingParamError(field));
+				}
 			}
+
+			const result = await this.calculateMathExpression.execute(
+				httpRequest.body.mathExpression
+			);
+
+			return ok(result);
+		} catch (error) {
+			return serverError(error);
 		}
-
-		const result = await this.calculateMathExpression.execute(
-			httpRequest.body.mathExpression
-		);
-
-		return {
-			statusCode: 200,
-			body: "ok",
-		};
 	}
 }

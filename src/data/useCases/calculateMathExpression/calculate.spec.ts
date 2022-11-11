@@ -32,7 +32,7 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
 	const calculateMathExpressionRepositoryStub =
 		makeCalculateMathExpressionRepositoryStub();
-	const sut = new CalculateMathExpressionImpl();
+	const sut = new CalculateMathExpressionImpl(calculateMathExpressionRepositoryStub);
 	return {
 		sut,
 		calculateMathExpressionRepositoryStub,
@@ -88,6 +88,17 @@ describe("Calculate Math Expression", () => {
 		expect(response).toEqual({
 			mathExpression: "10 + 10 / (2 + 3)",
 			result: 12,
+			date: new Date().toLocaleString(),
+		});
+	});
+
+	test("Should call CalculateMathExpressionRepository with the correct values", async () => {
+		const { sut, calculateMathExpressionRepositoryStub } = makeSut();
+		const repositorySpy = jest.spyOn(calculateMathExpressionRepositoryStub, "add");
+		await sut.execute("5 + 5");
+		expect(repositorySpy).toHaveBeenCalledWith({
+			mathExpression: "5 + 5",
+			result: 10,
 			date: new Date().toLocaleString(),
 		});
 	});

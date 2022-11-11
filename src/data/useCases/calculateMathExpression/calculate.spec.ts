@@ -1,13 +1,41 @@
+import { MathResultModel } from "../../../domain/models/mathResult";
+import { MathResult } from "../../../domain/useCases/calculateMathExpression";
+import { CalculateMathExpressionRepository } from "../../protocols/calculateMathExpressionRepository";
 import { CalculateMathExpressionImpl } from "./calculate";
+
+const makeCalculateMathExpressionRepositoryStub =
+	(): CalculateMathExpressionRepository => {
+		class CalculateMathExpressionRepositoryStub
+			implements CalculateMathExpressionRepository
+		{
+			async add(mathResult: MathResult): Promise<MathResultModel> {
+				return new Promise((resolve) => resolve(makeMathResultModel()));
+			}
+		}
+		return new CalculateMathExpressionRepositoryStub();
+	};
+
+const makeMathResultModel = (): MathResultModel => {
+	return {
+		id: "1",
+		mathExpression: "5 + 5",
+		result: 10,
+		date: new Date().toLocaleString(),
+	};
+};
 
 interface SutTypes {
 	sut: CalculateMathExpressionImpl;
+	calculateMathExpressionRepositoryStub: CalculateMathExpressionRepository;
 }
 
 const makeSut = (): SutTypes => {
+	const calculateMathExpressionRepositoryStub =
+		makeCalculateMathExpressionRepositoryStub();
 	const sut = new CalculateMathExpressionImpl();
 	return {
 		sut,
+		calculateMathExpressionRepositoryStub,
 	};
 };
 

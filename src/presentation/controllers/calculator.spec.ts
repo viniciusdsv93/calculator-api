@@ -1,5 +1,7 @@
-import { MathResult } from "../../domain/models/mathResult";
-import { CalculateMathExpression } from "../../domain/useCases/calculateMathExpression";
+import {
+	CalculateMathExpression,
+	MathResult,
+} from "../../domain/useCases/calculateMathExpression";
 import { MissingParamError } from "../errors/missingParamError";
 import { ServerError } from "../errors/serverError";
 import { badRequest, ok, serverError } from "../helpers/http";
@@ -12,7 +14,7 @@ const makeCalculator = (): CalculateMathExpression => {
 			return {
 				mathExpression,
 				result: 5,
-				date: new Date(),
+				date: new Date().toLocaleString(),
 			};
 		}
 	}

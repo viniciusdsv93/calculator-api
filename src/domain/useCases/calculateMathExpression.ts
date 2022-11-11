@@ -1,5 +1,9 @@
-import { MathResult } from "../models/mathResult";
+export interface MathResult {
+	mathExpression: string;
+	result: number;
+	date: string;
+}
 
 export interface CalculateMathExpression {
-  execute(mathExpression: string): Promise<MathResult>
+	execute(mathExpression: string): Promise<MathResult>;
 }

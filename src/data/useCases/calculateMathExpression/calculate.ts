@@ -3,8 +3,15 @@ import {
 	CalculateMathExpression,
 	MathResult,
 } from "../../../domain/useCases/calculateMathExpression";
+import { CalculateMathExpressionRepository } from "../../protocols/calculateMathExpressionRepository";
 
 export class CalculateMathExpressionImpl implements CalculateMathExpression {
+	private readonly calculateMathExpressionRepository: CalculateMathExpressionRepository;
+
+	constructor(calculateMathExpressionRepository: CalculateMathExpressionRepository) {
+		this.calculateMathExpressionRepository = calculateMathExpressionRepository;
+	}
+
 	async execute(mathExpression: string): Promise<MathResult> {
 		const result = await evaluate(mathExpression);
 
@@ -12,10 +19,14 @@ export class CalculateMathExpressionImpl implements CalculateMathExpression {
 			throw new Error();
 		}
 
-		return {
+		const mathResult = {
 			mathExpression,
 			result,
 			date: new Date().toLocaleString(),
 		};
+
+		await this.calculateMathExpressionRepository.add(mathResult);
+
+		return mathResult;
 	}
 }

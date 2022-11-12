@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/main/server.ts",
     "dev:db": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/infra/db/mariadb/helpers/mariadbHelper.ts",
     "build": "tsc",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",

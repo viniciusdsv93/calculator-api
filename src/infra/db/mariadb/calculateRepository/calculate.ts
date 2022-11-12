@@ -1,7 +1,7 @@
 import { CalculateMathExpressionRepository } from "../../../../data/protocols/calculateMathExpressionRepository";
 import { MathResultModel } from "../../../../domain/models/mathResult";
 import { MathResult } from "../../../../domain/useCases/calculateMathExpression";
-import { uuid } from "uuidv4";
+import { v4 as uuid } from "uuid";
 import { pool } from "../helpers/mariadbHelper";
 
 export class MariaDBCalculateMathExpressionRepository
@@ -12,13 +12,9 @@ export class MariaDBCalculateMathExpressionRepository
 		const { mathExpression, result, date } = mathResult;
 		const sqlQuery =
 			"INSERT INTO math_results (id, mathExpression, result, date) VALUES (?, ?, ?, ?)";
-		const queryResult = await pool.query(sqlQuery, [
-			id,
-			mathExpression,
-			result,
-			date,
-		]);
-		console.log("queryResult", queryResult);
-		return queryResult;
+		await pool.query(sqlQuery, [id, mathExpression, result, date]);
+		const sqlQueryResult = "SELECT * FROM math_results WHERE id = ?";
+		const [newMathResult] = await pool.query(sqlQueryResult, id);
+		return newMathResult;
 	}
 }

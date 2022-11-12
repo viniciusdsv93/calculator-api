@@ -3,10 +3,12 @@ import { bodyParser } from "../middlewares/bodyParser";
 import { contentType } from "../middlewares/contentType";
 import { cors } from "../middlewares/cors";
 import { router } from "../routes/routes";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export class App {
 	private readonly express: express.Application;
-	private readonly port = 3333;
+	private readonly port = process.env.PORT || 3333;
 
 	constructor() {
 		this.express = express();

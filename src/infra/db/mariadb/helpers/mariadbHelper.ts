@@ -12,7 +12,7 @@ const pool = createPool({
 pool.getConnection()
 	.then((conn) => {
 		conn.query(
-			"CREATE OR REPLACE TABLE math_results (id VARCHAR(255), mathExpression VARCHAR(255) NOT NULL, result DECIMAL NOT NULL, date VARCHAR(255) NOT NULL)"
+			"CREATE TABLE IF NOT EXISTS math_results (id VARCHAR(255), mathExpression VARCHAR(255) NOT NULL, result DECIMAL NOT NULL, date VARCHAR(255) NOT NULL)"
 		);
 	})
 	.catch((err) => {

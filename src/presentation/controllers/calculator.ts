@@ -1,6 +1,6 @@
 import { CalculateMathExpression } from "../../domain/useCases/calculateMathExpression";
 import { MissingParamError } from "../errors/missingParamError";
-import { badRequest, ok, serverError } from "../helpers/http";
+import { badRequest, created, ok, serverError } from "../helpers/http";
 import { Controller } from "../protocols/controller";
 import { HttpRequest, HttpResponse } from "../protocols/http";
 
@@ -24,7 +24,7 @@ export class CalculatorController implements Controller {
 				httpRequest.body.mathExpression
 			);
 
-			return ok(result);
+			return created(result);
 		} catch (error) {
 			return serverError(error as Error);
 		}

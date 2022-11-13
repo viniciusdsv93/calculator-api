@@ -1,0 +1,515 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "API de Reservas em Hotéis",
+		"description": "Esta API destina-se ao gerenciamento de reservas em hotéis",
+		"contact": {
+			"name": "Suporte",
+			"email": "viniciusdsv93@gmail.com"
+		},
+		"version": "1.0.0"
+	},
+	"paths": {
+		"/buscarHotel": {
+			"get": {
+				"summary": "Retorna todos os hotéis cadastrados",
+				"tags": ["Hotel"],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"id": {
+												"type": "string"
+											},
+											"nome": {
+												"type": "string"
+											},
+											"cnpj": {
+												"type": "string"
+											},
+											"pais": {
+												"type": "string"
+											},
+											"estado": {
+												"type": "string"
+											},
+											"cidade": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/buscarHotel/{CNPJ}": {
+			"get": {
+				"summary": "Retorna um hotel específico",
+				"tags": ["Hotel"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "CNPJ",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string"
+										},
+										"nome": {
+											"type": "string"
+										},
+										"cnpj": {
+											"type": "string"
+										},
+										"pais": {
+											"type": "string"
+										},
+										"estado": {
+											"type": "string"
+										},
+										"cidade": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Campo obrigatório não informado ou formato inválido"
+					},
+					"404": {
+						"description": "NOT FOUND"
+					}
+				}
+			}
+		},
+		"/cadastrarHotel": {
+			"post": {
+				"summary": "Cadastro de um Hotel",
+				"tags": ["Hotel"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"CNPJ": {
+										"type": "string"
+									},
+									"country": {
+										"type": "string"
+									},
+									"state": {
+										"type": "string"
+									},
+									"city": {
+										"type": "string"
+									}
+								}
+							},
+							"examples": {
+								"hotel": {
+									"value": {
+										"name": "Hotel Alvorecer",
+										"CNPJ": "12345678945612",
+										"country": "Brasil",
+										"state": "São Paulo",
+										"city": "São Caetano do Sul"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"400": {
+						"description": "Campo obrigatório não informado"
+					},
+					"201": {
+						"description": "CREATED",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"id": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/atualizarHotel": {
+			"put": {
+				"summary": "Atualizar dados de um Hotel",
+				"tags": ["Hotel"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+									"CNPJ": {
+										"type": "string"
+									},
+									"country": {
+										"type": "string"
+									},
+									"state": {
+										"type": "string"
+									},
+									"city": {
+										"type": "string"
+									}
+								}
+							},
+							"examples": {
+								"hotel": {
+									"value": {
+										"name": "Hotel Novo Alvorecer",
+										"CNPJ": "12345678945612",
+										"country": "Brasil",
+										"state": "São Paulo",
+										"city": "São Carlos"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"400": {
+						"description": "Campo obrigatório não informado"
+					},
+					"204": {
+						"description": "NO CONTENT",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/buscarReservaHospede": {
+			"get": {
+				"summary": "Retorna todas as Reservas cadastradas",
+				"tags": ["Reserva"],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"idHotel": {
+												"type": "string"
+											},
+											"numeroReserva": {
+												"type": "string"
+											},
+											"apartamento": {
+												"type": "string"
+											},
+											"dataCheckIn": {
+												"type": "string"
+											},
+											"dataCheckOut": {
+												"type": "string"
+											},
+											"status": {
+												"type": "string"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/buscarReservaHospede/{reservationNumber}": {
+			"get": {
+				"summary": "Retorna uma Reserva específica",
+				"tags": ["Reserva"],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "reservationNumber",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"idHotel": {
+											"type": "string"
+										},
+										"numeroReserva": {
+											"type": "string"
+										},
+										"apartamento": {
+											"type": "string"
+										},
+										"dataCheckIn": {
+											"type": "string"
+										},
+										"dataCheckOut": {
+											"type": "string"
+										},
+										"status": {
+											"type": "string"
+										},
+										"guests": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"idHospede": {
+														"type": "string"
+													},
+													"nome": {
+														"type": "string"
+													},
+													"sobrenome": {
+														"type": "string"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Campo obrigatório não informado"
+					},
+					"404": {
+						"description": "NOT FOUND"
+					}
+				}
+			}
+		},
+		"/cadastrarReservaHospede": {
+			"post": {
+				"summary": "Cadastro de uma Reserva e seus Hóspedes",
+				"tags": ["Reserva"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"id_hotel": {
+										"type": "string"
+									},
+									"reservationNumber": {
+										"type": "string"
+									},
+									"apartment": {
+										"type": "string"
+									},
+									"checkInDate": {
+										"type": "string"
+									},
+									"checkOutDate": {
+										"type": "string"
+									},
+									"status": {
+										"type": "integer"
+									},
+									"guests": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"name": {
+													"type": "string"
+												},
+												"lastName": {
+													"type": "string"
+												}
+											}
+										}
+									}
+								}
+							},
+							"examples": {
+								"reserva": {
+									"value": {
+										"id_hotel": "12345678945612",
+										"reservationNumber": "123",
+										"apartment": "11",
+										"checkInDate": "2022-02-15",
+										"checkOutDate": "2022-02-20",
+										"status": "1",
+										"guests": [
+											{
+												"name": "Jorge",
+												"lastName": "Nogueira"
+											},
+											{
+												"name": "Luciana",
+												"lastName": "Moraes"
+											}
+										]
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"400": {
+						"description": "Campo obrigatório não informado"
+					},
+					"201": {
+						"description": "CREATED",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"id": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/atualizarReservaHospede": {
+			"put": {
+				"summary": "Atualizar dados de uma Reserva e seus Hóspedes",
+				"tags": ["Reserva"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"id_hotel": {
+										"type": "string"
+									},
+									"reservationNumber": {
+										"type": "string"
+									},
+									"apartment": {
+										"type": "string"
+									},
+									"checkInDate": {
+										"type": "string"
+									},
+									"checkOutDate": {
+										"type": "string"
+									},
+									"status": {
+										"type": "integer"
+									},
+									"guests": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"name": {
+													"type": "string"
+												},
+												"lastName": {
+													"type": "string"
+												}
+											}
+										}
+									}
+								}
+							},
+							"examples": {
+								"hotel": {
+									"value": {
+										"id_hotel": "12345678945612",
+										"reservationNumber": "123",
+										"apartment": "11",
+										"checkInDate": "2022-02-15",
+										"checkOutDate": "2022-02-20",
+										"status": "1",
+										"guests": [
+											{
+												"name": "João",
+												"lastName": "Calieri"
+											},
+											{
+												"name": "Mariana",
+												"lastName": "Alves"
+											}
+										]
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"400": {
+						"description": "Campo obrigatório não informado"
+					},
+					"204": {
+						"description": "NO CONTENT",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

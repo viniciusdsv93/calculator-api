@@ -5,6 +5,8 @@ import { cors } from "../middlewares/cors";
 import { router } from "../routes/routes";
 import * as dotenv from "dotenv";
 dotenv.config();
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "../../../swagger.json";
 
 export class App {
 	private readonly express: express.Application;
@@ -14,6 +16,7 @@ export class App {
 		this.express = express();
 		this.middlewares();
 		this.routes();
+		this.documentation();
 		this.listen();
 	}
 
@@ -21,6 +24,10 @@ export class App {
 		this.express.use(cors);
 		this.express.use(bodyParser);
 		this.express.use(contentType);
+	}
+
+	private documentation() {
+		this.express.get("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 	}
 
 	private routes() {

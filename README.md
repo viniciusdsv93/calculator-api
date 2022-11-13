@@ -1,5 +1,9 @@
 ## API com Node, Typescript, Express, MariaDB aplicando TDD, Clean Archtecture e SOLID principles para conversão e cálculo de expressões matemáticas
 
+### Screenshot
+
+![](./screenshot.png)
+
 ### Construído com
 
 -   Node
@@ -11,8 +15,7 @@ API desenvolvida com Node, Express e Typescript.
 
 Por meio da API, são disponibilizados recursos para as operações de conversão e cálculo de expressões matemáticas e persistência dos dados da requisição no banco de dados e também para listagem de todas as requisições persistidas, com seus resultados.
 
-<!-- Foi realizada a documentação via Swagger, conforme a imagem acima, que pode ser acessada
-pelo endpoint "/api-docs". -->
+Foi realizada a documentação via Swagger, conforme a imagem acima, que pode ser acessada pelo endpoint "/api-docs".
 
 Por meio do endpoint "/calculate", utilizando-se o método HTTP POST, o usuário deve encaminhar no corpo da requisição obrigatoriamente um campo "mathExpression", caso contrário é retornada uma resposta com status code 400, BAD REQUEST, por motivo de ausência de campo obrigatório ("Missing Param: mathExpression").
 
@@ -75,9 +78,6 @@ No caso, as classes dos controllers e useCases possuem dependências, que são i
 Dessa forma, é possível alterar a implementação destas interfaces no momento de injetar a dependência sem que isso comprometa a funcionalidade dos componentes de mais alto-nível, já que todas as implementações obrigatoriamente seguirão a definição da interface, reduzindo acoplamento. 
 
 ## Execução
-
-<!-- Foi realizado o deploy da aplicação em cloud na plataforma Heroku, por meio do link:
-https://reservas-hotel-api.herokuapp.com/api-docs/ -->
 
 Para executar a aplicação localmente, é preciso primeiro iniciar o container docker com a
 instância do MariaDB, onde são persistidos os dados.

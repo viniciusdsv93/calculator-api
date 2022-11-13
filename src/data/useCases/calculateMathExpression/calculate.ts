@@ -25,8 +25,8 @@ export class CalculateMathExpressionImpl implements CalculateMathExpression {
 			date: new Date().toLocaleString(),
 		};
 
-		await this.calculateMathExpressionRepository.add(mathResult);
+		const res = await this.calculateMathExpressionRepository.add(mathResult);
 
-		return mathResult;
+		return res;
 	}
 }

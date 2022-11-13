@@ -10,7 +10,7 @@ import swaggerDocument from "../../../swagger.json";
 
 export class App {
 	private readonly express: express.Application;
-	private readonly port = process.env.PORT || 3333;
+	private readonly port = process.env.PORT || 3334;
 
 	constructor() {
 		this.express = express();
